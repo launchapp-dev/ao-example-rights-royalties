@@ -1,0 +1,91 @@
+{
+  "platform": "youtube",
+  "period": "2026-03",
+  "generated_at": "2026-03-31T06:00:00Z",
+  "records": [
+    {
+      "video_id": "dQw4w9WgXcQ",
+      "views": 28400,
+      "territory": "US",
+      "estimated_revenue_usd": 113.60
+    },
+    {
+      "video_id": "dQw4w9WgXcQ",
+      "views": 9100,
+      "territory": "GB",
+      "estimated_revenue_usd": 36.40
+    },
+    {
+      "video_id": "3JZ_D3ELwOQ",
+      "views": 17200,
+      "territory": "US",
+      "estimated_revenue_usd": 68.80
+    },
+    {
+      "video_id": "fJ9rUzIMcZQ",
+      "views": 12800,
+      "territory": "US",
+      "estimated_revenue_usd": 51.20
+    },
+    {
+      "video_id": "LsoLEjrDngU",
+      "views": 8900,
+      "territory": "DE",
+      "estimated_revenue_usd": 35.60
+    },
+    {
+      "video_id": "2vjPBrBU-TM",
+      "views": 14300,
+      "territory": "DE",
+      "estimated_revenue_usd": 57.20
+    },
+    {
+      "video_id": "UcZmGIHnFtk",
+      "views": 22600,
+      "territory": "US",
+      "estimated_revenue_usd": 90.40
+    },
+    {
+      "video_id": "V-_O7nl0Ii0",
+      "views": 16800,
+      "territory": "US",
+      "estimated_revenue_usd": 67.20
+    },
+    {
+      "video_id": "Ke_HkQPeArY",
+      "views": 41200,
+      "territory": "US",
+      "estimated_revenue_usd": 164.80
+    },
+    {
+      "video_id": "Ke_HkQPeArY",
+      "views": 18700,
+      "territory": "GB",
+      "estimated_revenue_usd": 74.80
+    },
+    {
+      "video_id": "XqZsoesa55w",
+      "views": 92400,
+      "territory": "US",
+      "estimated_revenue_usd": 369.60
+    },
+    {
+      "video_id": "XqZsoesa55w",
+      "views": 31500,
+      "territory": "WORLD",
+      "estimated_revenue_usd": 126.00
+    },
+    {
+      "video_id": "hT_nvWreIhg",
+      "views": 55800,
+      "territory": "US",
+      "estimated_revenue_usd": 223.20
+    },
+    {
+      "video_id": "hT_nvWreIhg",
+      "views": 22300,
+      "territory": "WORLD",
+      "estimated_revenue_usd": 89.20
+    }
+  ]
+}

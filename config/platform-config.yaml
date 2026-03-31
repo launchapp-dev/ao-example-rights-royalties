@@ -1,0 +1,51 @@
+platforms:
+  - id: spotify
+    name: "Spotify"
+    report_format: json
+    report_fields:
+      content_id_field: track_uri
+      play_count_field: streams
+      download_count_field: null
+      territory_field: country
+      revenue_field: null
+      period_field: month
+    currency: USD
+    rate_type: per_play
+    reporting_frequency: monthly
+
+  - id: apple_music
+    name: "Apple Music"
+    report_format: json
+    report_fields:
+      content_id_field: apple_id
+      play_count_field: plays
+      download_count_field: purchases
+      territory_field: storefront
+      revenue_field: null
+      period_field: reporting_period
+    currency: USD
+    rate_type: per_play_and_download
+    reporting_frequency: monthly
+
+  - id: youtube
+    name: "YouTube"
+    report_format: json
+    report_fields:
+      content_id_field: video_id
+      play_count_field: views
+      download_count_field: null
+      territory_field: territory
+      revenue_field: estimated_revenue_usd
+      period_field: period
+    currency: USD
+    rate_type: revenue_share
+    reporting_frequency: monthly
+
+territory_map:
+  # Storefront codes → ISO country codes
+  "143441": US
+  "143442": GB
+  "143443": DE
+  "143444": FR
+  "143445": AU
+  "WORLD": WORLD

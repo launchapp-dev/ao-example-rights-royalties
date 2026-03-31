@@ -1,0 +1,24 @@
+{
+  "platform": "apple_music",
+  "reporting_period": "2026-03",
+  "generated_at": "2026-03-31T04:00:00Z",
+  "records": [
+    { "apple_id": "1234567890", "plays": 62100, "purchases": 340, "storefront": "143441" },
+    { "apple_id": "1234567890", "plays": 18900, "purchases": 95, "storefront": "143442" },
+    { "apple_id": "1234567891", "plays": 41200, "purchases": 210, "storefront": "143441" },
+    { "apple_id": "1234567891", "plays": 12400, "purchases": 58, "storefront": "143442" },
+    { "apple_id": "1234567892", "plays": 29700, "purchases": 175, "storefront": "143441" },
+    { "apple_id": "9876543210", "plays": 18300, "purchases": 88, "storefront": "143443" },
+    { "apple_id": "9876543210", "plays": 7200, "purchases": 30, "storefront": "143441" },
+    { "apple_id": "9876543211", "plays": 33600, "purchases": 142, "storefront": "143443" },
+    { "apple_id": "9876543211", "plays": 15800, "purchases": 70, "storefront": "143441" },
+    { "apple_id": "1122334455", "plays": 45700, "purchases": 220, "storefront": "143441" },
+    { "apple_id": "1122334455", "plays": 23100, "purchases": 98, "storefront": "143442" },
+    { "apple_id": "1122334456", "plays": 32400, "purchases": 164, "storefront": "143441" },
+    { "apple_id": "1122334456", "plays": 14800, "purchases": 72, "storefront": "143444" },
+    { "apple_id": "podcast-001", "plays": 4200, "purchases": 0, "storefront": "143441" },
+    { "apple_id": "podcast-002", "plays": 8900, "purchases": 0, "storefront": "143441" },
+    { "apple_id": "podcast-002", "plays": 3100, "purchases": 0, "storefront": "143442" },
+    { "apple_id": "podcast-003", "plays": 6700, "purchases": 0, "storefront": "143441" }
+  ]
+}

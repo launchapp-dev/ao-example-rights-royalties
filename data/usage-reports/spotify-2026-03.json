@@ -1,0 +1,27 @@
+{
+  "platform": "spotify",
+  "month": "2026-03",
+  "generated_at": "2026-03-31T02:00:00Z",
+  "records": [
+    { "track_uri": "spotify:track:4uLU6hMCjMI75M1A2tKUQC", "streams": 182500, "country": "US" },
+    { "track_uri": "spotify:track:4uLU6hMCjMI75M1A2tKUQC", "streams": 45200, "country": "GB" },
+    { "track_uri": "spotify:track:4uLU6hMCjMI75M1A2tKUQC", "streams": 23100, "country": "DE" },
+    { "track_uri": "spotify:track:0SiywuOBRcynK0uKMGWMi2", "streams": 98700, "country": "US" },
+    { "track_uri": "spotify:track:0SiywuOBRcynK0uKMGWMi2", "streams": 31400, "country": "GB" },
+    { "track_uri": "spotify:track:7yyRTcZmCiyzzJlNzGC9Fk", "streams": 67300, "country": "US" },
+    { "track_uri": "spotify:track:7yyRTcZmCiyzzJlNzGC9Fk", "streams": 18200, "country": "DE" },
+    { "track_uri": "spotify:track:1N6TVFirCntlTinIq7QTKE", "streams": 54600, "country": "DE" },
+    { "track_uri": "spotify:track:1N6TVFirCntlTinIq7QTKE", "streams": 22300, "country": "US" },
+    { "track_uri": "spotify:track:3n3Ppam7vgaVa1iaRUIOKE", "streams": 89100, "country": "DE" },
+    { "track_uri": "spotify:track:3n3Ppam7vgaVa1iaRUIOKE", "streams": 41200, "country": "US" },
+    { "track_uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1", "streams": 124800, "country": "US" },
+    { "track_uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1", "streams": 67300, "country": "GB" },
+    { "track_uri": "spotify:track:7eqoqGkKwgOaWZeKSOz7eH", "streams": 88200, "country": "US" },
+    { "track_uri": "spotify:track:7eqoqGkKwgOaWZeKSOz7eH", "streams": 34500, "country": "DE" },
+    { "track_uri": "spotify:show:3RSTckML9iyP3YPf9gQNzl", "streams": 11200, "country": "US" },
+    { "track_uri": "spotify:show:4OhMJIZVrYYx4lDGR4QNOV", "streams": 28400, "country": "US" },
+    { "track_uri": "spotify:show:4OhMJIZVrYYx4lDGR4QNOV", "streams": 9800, "country": "GB" },
+    { "track_uri": "spotify:show:5IRQzpMW6LoC2RWqDEfmkl", "streams": 19600, "country": "US" },
+    { "track_uri": "spotify:show:5IRQzpMW6LoC2RWqDEfmkl", "streams": 7300, "country": "AU" }
+  ]
+}

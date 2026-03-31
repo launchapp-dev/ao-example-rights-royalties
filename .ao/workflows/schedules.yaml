@@ -1,0 +1,10 @@
+schedules:
+  - id: monthly-royalty-run
+    cron: "0 6 1 * *"
+    workflow_ref: monthly-royalty-run
+    enabled: true
+
+  - id: quarterly-audit
+    cron: "0 8 1 1,4,7,10 *"
+    workflow_ref: quarterly-audit
+    enabled: true

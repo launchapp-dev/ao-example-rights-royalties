@@ -1,0 +1,50 @@
+{
+  "last_updated": "2026-02-28T23:00:00Z",
+  "balances": [
+    {
+      "rights_holder_id": "HOLDER-JANE-DOE",
+      "rights_holder_name": "Jane Doe",
+      "agreement_id": "AGR-001",
+      "original_advance_usd": 5000.00,
+      "recouped_to_date_usd": 3250.00,
+      "remaining_unrecouped_usd": 1750.00,
+      "fully_recouped": false
+    },
+    {
+      "rights_holder_id": "HOLDER-MARC-RIVERS",
+      "rights_holder_name": "Marc Rivers",
+      "agreement_id": "AGR-002",
+      "original_advance_usd": 0.00,
+      "recouped_to_date_usd": 0.00,
+      "remaining_unrecouped_usd": 0.00,
+      "fully_recouped": true
+    },
+    {
+      "rights_holder_id": "HOLDER-SKYLINE-MUSIC",
+      "rights_holder_name": "Skyline Music Publishing",
+      "agreement_id": "AGR-003",
+      "original_advance_usd": 10000.00,
+      "recouped_to_date_usd": 10000.00,
+      "remaining_unrecouped_usd": 0.00,
+      "fully_recouped": true
+    },
+    {
+      "rights_holder_id": "HOLDER-NOVA-DIST",
+      "rights_holder_name": "Nova Distribution LLC",
+      "agreement_id": "AGR-004",
+      "original_advance_usd": 0.00,
+      "recouped_to_date_usd": 0.00,
+      "remaining_unrecouped_usd": 0.00,
+      "fully_recouped": true
+    },
+    {
+      "rights_holder_id": "HOLDER-BRIGHT-WAVE",
+      "rights_holder_name": "Bright Wave Media",
+      "agreement_id": "AGR-005",
+      "original_advance_usd": 0.00,
+      "recouped_to_date_usd": 0.00,
+      "remaining_unrecouped_usd": 0.00,
+      "fully_recouped": true
+    }
+  ]
+}

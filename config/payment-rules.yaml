@@ -1,0 +1,35 @@
+payment_rules:
+  minimum_payout_usd: 50.00
+
+  withholding_rates:
+    US: 0.00
+    GB: 0.20
+    DE: 0.15
+    FR: 0.15
+    AU: 0.15
+    default: 0.20    # Rest of World
+
+  payment_schedule:
+    payment_day: 15   # 15th of the month following statement period
+    payment_delay_days: 45
+
+  payment_methods:
+    ach:
+      currency: USD
+      min_amount_usd: 50.00
+      processing_fee_usd: 0.00
+    wire:
+      currency: any
+      min_amount_usd: 50.00
+      processing_fee_usd: 15.00
+    check:
+      currency: USD
+      min_amount_usd: 50.00
+      processing_fee_usd: 5.00
+
+  hold_policy:
+    below_threshold: "accumulate"     # Carry balance to next period
+    disputed: "manual_review"
+    unrecouped_advance: "apply_first" # Apply all earnings to advance before paying out
+
+  dispute_window_days: 30

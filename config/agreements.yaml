@@ -1,0 +1,118 @@
+agreements:
+  # Artist agreements
+  - id: AGR-001
+    rights_holder_id: HOLDER-JANE-DOE
+    rights_holder_name: "Jane Doe"
+    territory: US
+    content_ids:
+      - SONG-001
+      - SONG-002
+      - SONG-003
+    rate_structure:
+      type: tiered
+      tiers:
+        - threshold: 100000
+          rate_per_play: 0.004
+        - threshold: 500000
+          rate_per_play: 0.003
+        - threshold: null       # above 600K plays
+          rate_per_play: 0.002
+      download_rate: 0.09
+    advance:
+      amount: 5000.00
+      recouped_to_date: 3250.00
+    payment_threshold_usd: 50.00
+    payment_method: ach
+    currency: USD
+    withholding_rate: 0.00    # US resident
+
+  - id: AGR-002
+    rights_holder_id: HOLDER-MARC-RIVERS
+    rights_holder_name: "Marc Rivers"
+    territory: DE
+    content_ids:
+      - SONG-004
+      - SONG-005
+      - PODCAST-001
+    rate_structure:
+      type: tiered
+      tiers:
+        - threshold: 50000
+          rate_per_play: 0.0045
+        - threshold: null
+          rate_per_play: 0.0025
+      download_rate: 0.08
+    advance:
+      amount: 0.00
+      recouped_to_date: 0.00
+    payment_threshold_usd: 50.00
+    payment_method: wire
+    currency: EUR
+    withholding_rate: 0.15    # EU non-resident withholding
+
+  # Co-written content (multi-party split)
+  - id: AGR-003
+    rights_holder_id: HOLDER-SKYLINE-MUSIC
+    rights_holder_name: "Skyline Music Publishing"
+    territory: US
+    content_ids:
+      - SONG-006
+      - SONG-007
+    rate_structure:
+      type: tiered
+      tiers:
+        - threshold: 200000
+          rate_per_play: 0.0035
+        - threshold: null
+          rate_per_play: 0.0022
+      download_rate: 0.07
+    splits:
+      HOLDER-JANE-DOE: 0.40       # Jane gets 40% of Skyline catalog earnings
+      HOLDER-SKYLINE-MUSIC: 0.60  # Skyline retains 60%
+    advance:
+      amount: 10000.00
+      recouped_to_date: 10000.00  # fully recouped
+    payment_threshold_usd: 100.00
+    payment_method: wire
+    currency: USD
+    withholding_rate: 0.00
+
+  # Distributor — revenue share model
+  - id: AGR-004
+    rights_holder_id: HOLDER-NOVA-DIST
+    rights_holder_name: "Nova Distribution LLC"
+    territory: WORLD
+    content_ids:
+      - VIDEO-001
+      - VIDEO-002
+      - VIDEO-003
+    rate_structure:
+      type: revenue_share
+      revenue_share_pct: 0.70     # 70% of reported platform revenue to Nova
+    advance:
+      amount: 0.00
+      recouped_to_date: 0.00
+    payment_threshold_usd: 50.00
+    payment_method: ach
+    currency: USD
+    withholding_rate: 0.00
+
+  # Podcast publisher — flat fee per episode per platform + per-download
+  - id: AGR-005
+    rights_holder_id: HOLDER-BRIGHT-WAVE
+    rights_holder_name: "Bright Wave Media"
+    territory: WORLD
+    content_ids:
+      - PODCAST-002
+      - PODCAST-003
+    rate_structure:
+      type: flat
+      per_download_rate: 0.002
+      minimum_guarantee_usd: 200.00   # per period minimum
+    advance:
+      amount: 0.00
+      recouped_to_date: 0.00
+    payment_threshold_usd: 50.00
+    payment_method: check
+    currency: USD
+    withholding_rate: 0.00

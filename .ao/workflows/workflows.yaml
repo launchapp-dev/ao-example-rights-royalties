@@ -1,0 +1,42 @@
+default_workflow_ref: monthly-royalty-run
+
+workflows:
+  - id: monthly-royalty-run
+    name: "Monthly Royalty Run"
+    description: "Ingest usage data, calculate royalties, generate statements, and process payments"
+    phases:
+      - ingest-usage
+      - validate-usage
+      - calculate-royalties
+      - review-calculations:
+          on_verdict:
+            recalculate:
+              target: calculate-royalties
+          max_rework_attempts: 2
+      - generate-statements
+      - process-payments:
+          on_verdict:
+            disputed:
+              target: _fail
+            hold:
+              target: archive-period
+      - archive-period
+    post_success:
+      notify: true
+
+  - id: quarterly-audit
+    name: "Quarterly Royalty Audit"
+    description: "Comprehensive audit of usage data, royalty calculations, and payment accuracy"
+    phases:
+      - run-audit
+      - assess-findings:
+          on_verdict:
+            clean:
+              target: compile-audit-report
+            discrepancy:
+              target: reconcile
+            escalate:
+              target: _fail
+      - reconcile
+      - reissue-statements
+      - compile-audit-report

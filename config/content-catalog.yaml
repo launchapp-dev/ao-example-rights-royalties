@@ -1,0 +1,189 @@
+catalog:
+  # Music tracks
+  - id: SONG-001
+    title: "City Lights"
+    type: song
+    rights_holder_id: HOLDER-JANE-DOE
+    agreement_id: AGR-001
+    status: active
+    release_date: "2024-01-15"
+    isrc: "US-ABC-24-00001"
+    platform_content_ids:
+      spotify: "spotify:track:4uLU6hMCjMI75M1A2tKUQC"
+      apple_music: "1234567890"
+      youtube: "dQw4w9WgXcQ"
+
+  - id: SONG-002
+    title: "Neon Rain"
+    type: song
+    rights_holder_id: HOLDER-JANE-DOE
+    agreement_id: AGR-001
+    status: active
+    release_date: "2024-03-20"
+    isrc: "US-ABC-24-00002"
+    platform_content_ids:
+      spotify: "spotify:track:0SiywuOBRcynK0uKMGWMi2"
+      apple_music: "1234567891"
+      youtube: "3JZ_D3ELwOQ"
+
+  - id: SONG-003
+    title: "Midnight Echo"
+    type: song
+    rights_holder_id: HOLDER-JANE-DOE
+    agreement_id: AGR-001
+    status: active
+    release_date: "2024-06-01"
+    isrc: "US-ABC-24-00003"
+    platform_content_ids:
+      spotify: "spotify:track:7yyRTcZmCiyzzJlNzGC9Fk"
+      apple_music: "1234567892"
+      youtube: "fJ9rUzIMcZQ"
+
+  - id: SONG-004
+    title: "Wandering Soul"
+    type: song
+    rights_holder_id: HOLDER-MARC-RIVERS
+    agreement_id: AGR-002
+    status: active
+    release_date: "2023-11-10"
+    isrc: "DE-XYZ-23-00001"
+    platform_content_ids:
+      spotify: "spotify:track:1N6TVFirCntlTinIq7QTKE"
+      apple_music: "9876543210"
+      youtube: "LsoLEjrDngU"
+
+  - id: SONG-005
+    title: "Blue Horizon"
+    type: song
+    rights_holder_id: HOLDER-MARC-RIVERS
+    agreement_id: AGR-002
+    status: active
+    release_date: "2024-02-28"
+    isrc: "DE-XYZ-24-00001"
+    platform_content_ids:
+      spotify: "spotify:track:3n3Ppam7vgaVa1iaRUIOKE"
+      apple_music: "9876543211"
+      youtube: "2vjPBrBU-TM"
+
+  - id: SONG-006
+    title: "Golden Hour"
+    type: song
+    rights_holder_id: HOLDER-SKYLINE-MUSIC
+    agreement_id: AGR-003
+    status: active
+    release_date: "2024-04-14"
+    isrc: "US-SKY-24-00001"
+    co_rights_holders:
+      - HOLDER-JANE-DOE
+    platform_content_ids:
+      spotify: "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+      apple_music: "1122334455"
+      youtube: "UcZmGIHnFtk"
+
+  - id: SONG-007
+    title: "Silver Lining"
+    type: song
+    rights_holder_id: HOLDER-SKYLINE-MUSIC
+    agreement_id: AGR-003
+    status: active
+    release_date: "2024-07-30"
+    isrc: "US-SKY-24-00002"
+    co_rights_holders:
+      - HOLDER-JANE-DOE
+    platform_content_ids:
+      spotify: "spotify:track:7eqoqGkKwgOaWZeKSOz7eH"
+      apple_music: "1122334456"
+      youtube: "V-_O7nl0Ii0"
+
+  # Videos
+  - id: VIDEO-001
+    title: "Making of City Lights (Documentary)"
+    type: video
+    rights_holder_id: HOLDER-NOVA-DIST
+    agreement_id: AGR-004
+    status: active
+    release_date: "2024-05-01"
+    platform_content_ids:
+      youtube: "Ke_HkQPeArY"
+
+  - id: VIDEO-002
+    title: "Live at The Venue (Concert)"
+    type: video
+    rights_holder_id: HOLDER-NOVA-DIST
+    agreement_id: AGR-004
+    status: active
+    release_date: "2024-08-15"
+    platform_content_ids:
+      youtube: "XqZsoesa55w"
+
+  - id: VIDEO-003
+    title: "Studio Sessions Vol. 1"
+    type: video
+    rights_holder_id: HOLDER-NOVA-DIST
+    agreement_id: AGR-004
+    status: active
+    release_date: "2024-10-20"
+    platform_content_ids:
+      youtube: "hT_nvWreIhg"
+
+  # Podcasts
+  - id: PODCAST-001
+    title: "The Marc Rivers Music Podcast — Season 1"
+    type: podcast
+    rights_holder_id: HOLDER-MARC-RIVERS
+    agreement_id: AGR-002
+    status: active
+    platform_content_ids:
+      spotify: "spotify:show:3RSTckML9iyP3YPf9gQNzl"
+      apple_music: "podcast-001"
+
+  - id: PODCAST-002
+    title: "Sound Waves Weekly"
+    type: podcast
+    rights_holder_id: HOLDER-BRIGHT-WAVE
+    agreement_id: AGR-005
+    status: active
+    platform_content_ids:
+      spotify: "spotify:show:4OhMJIZVrYYx4lDGR4QNOV"
+      apple_music: "podcast-002"
+
+  - id: PODCAST-003
+    title: "Inside the Studio"
+    type: podcast
+    rights_holder_id: HOLDER-BRIGHT-WAVE
+    agreement_id: AGR-005
+    status: active
+    platform_content_ids:
+      spotify: "spotify:show:5IRQzpMW6LoC2RWqDEfmkl"
+      apple_music: "podcast-003"
+
+rights_holders:
+  - id: HOLDER-JANE-DOE
+    name: "Jane Doe"
+    type: artist
+    territory: US
+    contact_email: "jane@example.com"
+
+  - id: HOLDER-MARC-RIVERS
+    name: "Marc Rivers"
+    type: artist
+    territory: DE
+    contact_email: "marc@example.com"
+
+  - id: HOLDER-SKYLINE-MUSIC
+    name: "Skyline Music Publishing"
+    type: publisher
+    territory: US
+    contact_email: "royalties@skylinemusic.example.com"
+
+  - id: HOLDER-NOVA-DIST
+    name: "Nova Distribution LLC"
+    type: distributor
+    territory: WORLD
+    contact_email: "finance@novadist.example.com"
+
+  - id: HOLDER-BRIGHT-WAVE
+    name: "Bright Wave Media"
+    type: publisher
+    territory: WORLD
+    contact_email: "rights@brightwavemedia.example.com"

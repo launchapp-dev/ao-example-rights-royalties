@@ -1,0 +1,301 @@
+phases:
+  # ── Monthly Royalty Run ──────────────────────────────────────────────────────
+
+  ingest-usage:
+    mode: agent
+    agent: usage-tracker
+    directive: |
+      The current period is determined by the most recent files in data/usage-reports/.
+      Read all JSON files in data/usage-reports/ and identify their period from filenames
+      or internal metadata.
+
+      For each file:
+      1. Read config/platform-config.yaml to understand the platform's report format and currency
+      2. Read config/content-catalog.yaml to get the canonical content ID mapping
+      3. Parse the report and normalize all records to the standard format
+      4. Map any platform-specific content IDs to catalog IDs (check both catalog id and
+         platform_content_ids fields)
+      5. Aggregate all records into data/normalized-usage.json
+
+      Report any unmapped content IDs in the unknown_ids field — do not silently drop them.
+      If a platform report is missing for the expected period, note it in the output.
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  validate-usage:
+    mode: command
+    command:
+      program: python3
+      args: ["scripts/validate-usage.py"]
+      cwd_mode: project_root
+      timeout_secs: 60
+
+  calculate-royalties:
+    mode: agent
+    agent: royalty-calculator
+    directive: |
+      Calculate royalties for all rights holders for the current period.
+
+      Steps:
+      1. Read data/normalized-usage.json (the current period's usage)
+      2. Read config/agreements.yaml (all rights holder agreements and rate structures)
+      3. Read config/content-catalog.yaml (to resolve content → rights holder mappings)
+      4. Read data/advance-balances.json (current advance recoupment status)
+
+      For each usage record, apply the correct rate structure from the holder's agreement.
+      Use sequential-thinking to work through complex tiered rate calculations step by step.
+
+      After processing all records:
+      - Write the complete royalty ledger to data/royalty-ledger.json
+      - Update advance-balances.json with new recoupment amounts for each holder
+      - Print a summary: total plays processed, total gross royalties, total net payable by holder
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  review-calculations:
+    mode: agent
+    agent: auditor
+    directive: |
+      Perform a spot-check audit of the just-calculated royalties in data/royalty-ledger.json.
+
+      Checks to perform:
+      1. Verify that each holder's rate_applied matches their agreement in config/agreements.yaml
+      2. Verify that all multi-party content splits sum to exactly 100%
+      3. Verify that advance recoupment does not exceed the holder's earned gross amount
+      4. Randomly select 5 ledger entries and manually recalculate the royalty amount
+      5. Check that no holder has a negative net_amount_usd (floor is 0)
+      6. Verify holder_summaries totals match the sum of individual entries
+
+      Write your findings to data/audit-findings.json with audit_type = "spot_check".
+
+      Emit your verdict:
+      - "approved" if all checks pass or only minor discrepancies (info-level findings only)
+      - "recalculate" if you find any calculation errors, wrong rates applied, or split errors
+    decision_contract:
+      required_fields: [verdict, reasoning]
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  generate-statements:
+    mode: agent
+    agent: statement-generator
+    directive: |
+      Generate royalty statements for all rights holders for the current period.
+
+      1. Read data/royalty-ledger.json — use holder_summaries for totals and entries for line items
+      2. Read data/advance-balances.json — include current advance balance in each statement
+      3. Read config/payment-rules.yaml — include withholding tax info and payment details
+      4. Read config/agreements.yaml — for payment method and currency preferences per holder
+
+      For each unique rights_holder_id in the ledger:
+      - Create statements/YYYY-MM-<holder-slug>.md (derive period from the ledger's period field)
+      - Include full itemized breakdown per content item per platform
+      - Show advance recoupment deductions with updated remaining balance
+      - Show withholding tax calculation for the holder's territory
+      - Show net payable after all deductions
+
+      Check data/reconciliation-log.json — if any entries have statement_requires_amendment = true
+      for this holder and period, generate amended statements instead and mark them "AMENDED".
+    capabilities:
+      mutates_state: false
+      writes_files: true
+
+  process-payments:
+    mode: agent
+    agent: payment-processor
+    directive: |
+      Process the payment batch for the current period.
+
+      1. Read data/royalty-ledger.json (holder_summaries for net amounts)
+      2. Read config/payment-rules.yaml (thresholds, withholding rates, payment methods)
+      3. Read data/reconciliation-log.json (check for any unresolved disputes)
+
+      For each holder:
+      - Apply minimum payout threshold check
+      - Calculate withholding tax based on territory
+      - Determine pay/hold/disputed status
+      - Populate payment instructions for approved payments
+
+      Write data/payment-batch.json with all payment decisions.
+
+      Your verdict:
+      - "approved" if processing completed with no unresolved disputes
+        (some payments may be on hold — that's normal and expected)
+      - "disputed" if any payment has an unresolved dispute requiring manual review
+      - "hold" if processing succeeded but ALL payments are below threshold this cycle
+    decision_contract:
+      required_fields: [verdict, reasoning, payment_summary]
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  archive-period:
+    mode: command
+    command:
+      program: bash
+      args: ["scripts/archive-period.sh", "{{subject_title}}"]
+      cwd_mode: project_root
+      timeout_secs: 120
+
+  # ── Quarterly Audit ──────────────────────────────────────────────────────────
+
+  run-audit:
+    mode: agent
+    agent: auditor
+    directive: |
+      Conduct a comprehensive quarterly audit covering the last 3 months of royalty data.
+
+      Audit scope:
+      1. DATA COMPLETENESS: Check that data/history/ contains ledgers and payment batches
+         for each of the last 3 months. List any missing periods.
+      2. USAGE VERIFICATION: For each period, compare normalized-usage.json totals
+         against the sum of raw usage reports in data/usage-reports/ (or archived copies).
+         Flag discrepancies > 1% as major findings.
+      3. CALCULATION AUDIT: For each period's royalty-ledger.json:
+         - Re-verify rate application for the top 5 highest-earning content items
+         - Check all advance recoupment math against advance-balances history
+         - Verify all multi-party split percentages sum to 100%
+      4. COVERAGE CHECK: Ensure all active catalog content appears in usage data
+         for each period (even if 0 plays — absence is a potential issue)
+      5. PAYMENT RECONCILIATION: Compare total approved payments per period
+         against ledger net totals. Identify any unexplained variances.
+      6. ANOMALY DETECTION: Flag any content item with usage count > 3x or < 1/3
+         of the prior period's count (filter out new releases and catalog drops)
+
+      Write comprehensive findings to data/audit-findings.json with audit_type = "quarterly".
+      Be thorough — this audit protects rights holders and the company from financial errors.
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  assess-findings:
+    mode: agent
+    agent: auditor
+    directive: |
+      Review the audit findings in data/audit-findings.json and determine the severity
+      and appropriate response.
+
+      Assessment criteria:
+      - "clean": No critical or major findings. Minor/info findings only.
+        Proceed directly to compile the audit report.
+      - "discrepancy": One or more major findings exist (calculation errors, missing data,
+        coverage gaps, split errors). Reconciliation is needed before compiling the report.
+      - "escalate": Any critical finding exists — potential fraud, systematic miscalculation
+        affecting multiple holders/periods, evidence of data manipulation, or missing data
+        that would materially misstate royalty obligations.
+
+      Read the findings carefully. Consider:
+      - How many holders are affected?
+      - What is the estimated financial impact?
+      - Is this a one-time error or systemic pattern?
+      - Is there any evidence of intentional manipulation?
+
+      Your verdict will route the workflow:
+      - "clean" → directly to compile-audit-report
+      - "discrepancy" → to reconcile (then reissue-statements, then compile-audit-report)
+      - "escalate" → workflow fails, manual escalation required
+
+      Include in your reasoning: estimated total adjustment amount, number of affected holders,
+      and whether patterns suggest systemic issues.
+    decision_contract:
+      required_fields: [verdict, reasoning, affected_holder_count, estimated_adjustment_usd]
+    capabilities:
+      mutates_state: false
+      writes_files: false
+
+  reconcile:
+    mode: agent
+    agent: reconciler
+    directive: |
+      Resolve all major findings from data/audit-findings.json.
+
+      For each finding with severity = "major" or "critical":
+      1. Trace the root cause using the finding's category and description
+      2. Read the affected ledger entries from data/royalty-ledger.json or data/history/
+      3. Calculate the correct amounts
+      4. Add adjustment entries to data/royalty-ledger.json (do not modify originals)
+      5. Record the reconciliation in data/reconciliation-log.json
+      6. Set statement_requires_amendment = true for any holder with material adjustments
+
+      For minor findings, document them in the reconciliation log as "acknowledged, no adjustment"
+      and explain why no adjustment is warranted.
+
+      After processing all findings:
+      - Summarize total adjustments by holder
+      - List all statements that need to be reissued
+      - Update data/advance-balances.json if any advance recoupment was incorrect
+    capabilities:
+      mutates_state: true
+      writes_files: true
+
+  reissue-statements:
+    mode: agent
+    agent: statement-generator
+    directive: |
+      Reissue amended royalty statements for all rights holders flagged in
+      data/reconciliation-log.json where statement_requires_amendment = true.
+
+      For each holder requiring amendment:
+      1. Identify all periods affected (there may be multiple from the quarterly audit)
+      2. Read the original statement from statements/ and the reconciliation log entries
+      3. Generate an amended statement showing:
+         - Header: "AMENDED ROYALTY STATEMENT" in prominent text
+         - Amendment date and reconciliation log reference(s)
+         - Original amounts table
+         - Adjustment table with root cause for each adjustment
+         - Corrected totals
+         - If net payable changed: note whether this creates a catch-up payment or
+           a credit against next period
+      4. Write to statements/YYYY-MM-holder-slug-amended.md
+
+      Do not overwrite original statements — amended versions are new files.
+    capabilities:
+      mutates_state: false
+      writes_files: true
+
+  compile-audit-report:
+    mode: agent
+    agent: auditor
+    directive: |
+      Compile the quarterly audit report summarizing the entire audit process and outcomes.
+
+      Report structure (write to reports/audit-YYYY-QN.md):
+
+      # Quarterly Royalty Audit Report — [Quarter] [Year]
+      **Audit Date:** [date]
+      **Period Covered:** [start month] – [end month]
+      **Auditor:** Automated Royalty Audit System
+
+      ## Executive Summary
+      - Total royalties audited: $X
+      - Findings: N critical, N major, N minor
+      - Total adjustments: $X (X% of total royalties)
+      - Holders affected: N of N total
+      - Status: Clean / Reconciled / Escalated
+
+      ## Methodology
+      [Describe what was checked and how]
+
+      ## Findings Detail
+      [For each finding: severity, description, root cause, action taken, amount adjusted]
+
+      ## Reconciliation Summary
+      [If reconciliation was performed: summary of all adjustments by holder]
+
+      ## Systemic Issues Identified
+      [Patterns that should be addressed in process or tooling]
+
+      ## Recommendations
+      [Concrete, actionable recommendations for next quarter]
+
+      ## Appendix
+      [Links to amended statements, full reconciliation log]
+
+      Read data/audit-findings.json, data/reconciliation-log.json, and data/royalty-ledger.json
+      to populate all sections. Determine the quarter designation (Q1/Q2/Q3/Q4) from the period.
+    capabilities:
+      mutates_state: false
+      writes_files: true
